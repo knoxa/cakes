@@ -44,5 +44,25 @@
 			<attribute name="maven.scope" value="compile"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="D:/Users/Alan/.m2/repository/org/apache/opennlp/opennlp-tools/1.9.1/opennlp-tools-1.9.1.jar" sourcepath="D:/Users/Alan/.m2/repository/org/apache/opennlp/opennlp-tools/1.9.1/opennlp-tools-1.9.1-sources.jar">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+			<attribute name="maven.groupId" value="org.apache.opennlp"/>
+			<attribute name="maven.artifactId" value="opennlp-tools"/>
+			<attribute name="maven.version" value="1.9.1"/>
+			<attribute name="maven.scope" value="compile"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry exported="true" kind="lib" path="/nlp.opennlp/lib/edu.mit.jwi_2.2.3.jar"/>
+	<classpathentry kind="lib" path="D:/Users/Alan/.m2/repository/commons-io/commons-io/2.6/commons-io-2.6.jar">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+			<attribute name="maven.groupId" value="commons-io"/>
+			<attribute name="maven.artifactId" value="commons-io"/>
+			<attribute name="maven.version" value="2.6"/>
+			<attribute name="maven.scope" value="compile"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry combineaccessrules="false" kind="src" path="/Dover"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
