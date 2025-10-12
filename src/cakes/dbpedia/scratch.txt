@@ -1,0 +1,18 @@
+prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+prefix skos: <http://www.w3.org/2004/02/skos/core#>
+prefix gn: <http://www.geonames.org/ontology#>
+prefix foaf: <http://xmlns.com/foaf/0.1/>
+prefix schema: <http://schema.org/>
+
+select distinct ?label ?type0 ?page ?topic ?type1 ?text
+
+WHERE {
+
+       ?entity skos:prefLabel|skos:altLabel|gn:name|gn:shortName|gn:alternateName|schema:name|schema:alternateName ?label.
+       ?entity skos:definition ?text.
+       OPTIONAL { ?entity skos:broadMatch ?topic. }
+       OPTIONAL { ?entity foaf:isPrimaryTopicOf ?page. }
+       BIND(0 AS ?type0)
+       BIND(1 AS ?type1)
+}

@@ -1,0 +1,26 @@
+construct{
+
+  ?entity skos:prefLabel ?name; skos:definition ?abstract; foaf:isPrimaryTopicOf ?page.
+  ?entity skos:altLabel ?label.
+  ?entity geo:lat ?lat.
+  ?entity geo:long ?long.
+}
+where {
+
+  ?entity rdfs:label ?name; dbo:abstract ?abstract.
+  ?entity foaf:isPrimaryTopicOf ?page.
+
+  OPTIONAL {
+    ?alias dbo:wikiPageRedirects ?entity.
+    ?alias rdfs:label ?label.
+    FILTER( LANGMATCHES(LANG(?label), "en") ).
+  }
+  
+  OPTIONAL {
+    ?entity geo:lat ?lat.
+    ?entity geo:long ?long.
+  }
+  
+  FILTER( LANGMATCHES(LANG(?name), "en") ).
+  FILTER( LANGMATCHES(LANG(?abstract), "en") ).
+}

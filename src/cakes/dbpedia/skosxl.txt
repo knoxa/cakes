@@ -1,0 +1,16 @@
+prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+prefix skos: <http://www.w3.org/2004/02/skos/core#>
+prefix gn: <http://www.geonames.org/ontology#>
+prefix schema: <http://schema.org/>
+prefix skosxl: <http://www.w3.org/2008/05/skos-xl#>
+
+select distinct ?entity ?name ?resource ?mention ?label
+
+WHERE {
+
+       ?entity rdf:Property ?resource.
+       ?entity skosxl:literalForm ?name.
+       ?entity skosxl:labelRelation ?mention.
+       ?mention skosxl:literalForm ?label.
+}

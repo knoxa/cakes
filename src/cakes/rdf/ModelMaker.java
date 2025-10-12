@@ -108,4 +108,25 @@ public class ModelMaker {
 		return model;
 	}
 
+	
+	public static Model getModelFromXhtmlFile(File input) throws TransformerException, IOException {
+		
+		/*
+		 * Reads XHTML+RDFa from a file and returns a Model of the RDFa mark-up.
+		 * Constructs an pipeline that will run a RDFa extractor XSL stylesheet.
+		 */
+
+		Pipeline pipeline = new Pipeline();
+		
+//		XhtmlRdfa.class.getResourceAsStream("rdfa-ntriples.xsl");
+//		pipeline.addStep(new StreamSource(XhtmlRdfa.class.getResourceAsStream("rdfa-ntriples.xsl")));
+		
+		// NEED TO FIX THIS - create the file with a base directory, so imports work ... 
+		File xslfile = new File("/D:/GitHub/eleatics/xsl-utils", "rdfa-ntriples.xsl");
+		pipeline.addStep(new StreamSource(xslfile));
+
+		Model model = ModelMaker.getModelFromXML(input, pipeline);
+		return model;
+	}
+	
 }
