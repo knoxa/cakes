@@ -8,10 +8,10 @@ import org.apache.jena.rdf.model.Model;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 
-import cakes.dbpedia.Labels;
 import cakes.nlp.dictionary.DictionaryUtils;
 import cakes.nlp.dictionary.DictionaryWrapper;
 import cakes.nlp.dictionary.Match;
+import cakes.rdf.Labels;
 import xslt.BaseFilter;
 
 /**

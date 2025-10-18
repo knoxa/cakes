@@ -1,4 +1,4 @@
-package cakes.dbpedia;
+package cakes.rdf;
 
 import java.io.File;
 import java.io.FileOutputStream;

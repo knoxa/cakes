@@ -72,5 +72,14 @@
 			<attribute name="maven.scope" value="compile"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="D:/Users/Alan/.m2/repository/commons-codec/commons-codec/1.12/commons-codec-1.12.jar">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+			<attribute name="maven.groupId" value="commons-codec"/>
+			<attribute name="maven.artifactId" value="commons-codec"/>
+			<attribute name="maven.version" value="1.12"/>
+			<attribute name="maven.scope" value="compile"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

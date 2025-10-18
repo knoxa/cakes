@@ -1,8 +1,7 @@
-package cakes.dbpedia;
+package cakes.rdf;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -26,56 +25,12 @@ import org.apache.jena.riot.RDFDataMgr;
 
 
 public class Labels {
-
-	public static void main(String[] args) throws IOException {
-
-		//File rdf = new File("models/measures.xml");		
-		//File rdf = new File("models/place-concept.xml");
-		String name = "data-science";
-		//String name = "dtic";
-		//String name = "place-concept";
-		
-		//	File aka = new File("models/aka.xml");		
-		//	Model akaModel = getModel(aka); 
-		File aka = new File("models/synonyms.xml");		
-		Model akaModel = getModel(aka, Lang.RDFXML); 
-		
-		File rdf = new File("models/" + name + ".xml");		
-//		File rdf = new File("/D:/Data/RDF/aircraft.rdf");		
-		Model descriptions = getModel(rdf, Lang.RDFXML);
-		descriptions.add(akaModel);
-		
-		List<String> labels = queryLabels(descriptions);
-						
-		PrintWriter out = new PrintWriter("lists/" + name + ".txt", "UTF-8");
-		for (String label: labels) out.println(label);
-		out.close();
-		
-/*
-		Map<String, String> labelMap = queryLabelMap(descriptions);
-		
-		for (String label: labelMap.keySet() ) {
-			
-			System.out.println("\"" + label + "\"," + labelMap.get(label));
-			
-		}
-*/
-//		Set<String> labelSet = queryLabelSet(descriptions);
-		
-//		for (String label: labelSet ) {
-			
-		//	System.out.println("\"" + label + "\"," + label);
-			
-//		}
-		
-	}
-
 	
 	public static List<String> queryLabels(Model m) throws IOException {
 		
 		// returns a list of labels - redundant?
 		
-		String queryString = IOUtils.toString(Labels.class.getResourceAsStream("sparql/labels.txt"), "UTF-8");
+		String queryString = IOUtils.toString(Labels.class.getResourceAsStream("labels.txt"), "UTF-8");
 
 		Query qry = QueryFactory.create(queryString);
         QueryExecution qe = QueryExecutionFactory.create(qry, m);
@@ -92,7 +47,7 @@ public class Labels {
 		
 		// Returns a Map of labels (both preferred and alternate) to IRI's. Labels may be ambiguous, so a lookup returns a set of IRI's
 		
-		String queryString = IOUtils.toString(Labels.class.getResourceAsStream("sparql/labels.txt"), "UTF-8");
+		String queryString = IOUtils.toString(Labels.class.getResourceAsStream("labels.txt"), "UTF-8");
 
 		Query qry = QueryFactory.create(queryString);
         QueryExecution qe = QueryExecutionFactory.create(qry, m);
@@ -126,7 +81,7 @@ public class Labels {
 		
 		// Returns a Map of IRI's to type. A type is the preferred label of any broader concept.
 		
-		String queryString = IOUtils.toString(Labels.class.getResourceAsStream("sparql/types.txt"), "UTF-8");
+		String queryString = IOUtils.toString(Labels.class.getResourceAsStream("types.txt"), "UTF-8");
 
 		Query qry = QueryFactory.create(queryString);
         QueryExecution qe = QueryExecutionFactory.create(qry, m);

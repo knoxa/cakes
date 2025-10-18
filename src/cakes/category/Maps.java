@@ -96,12 +96,22 @@ public class Maps {
 
 	public static void addMapValue(Map<String, Set<String>> map, String key, String value) {
 
-		// Add to the set of values for given key, creating the set if necessary
+		// Add a string to the set of values for given key, creating the set if necessary
 		
 		Set<String> values = map.get(key);
     	if ( values == null ) values = new HashSet<String>();
     	values.add(value);
     	map.put(key, values);
+	}
+
+	public static void addMapValues(Map<String, Set<String>> map, String key, Set<String> values) {
+
+		// Add a set to the set of values for given key, creating the set if necessary
+		
+		Set<String> storedValues = map.get(key);
+    	if ( storedValues == null ) storedValues = new HashSet<String>();
+    	storedValues.addAll(values);
+    	map.put(key, storedValues);
 	}
 	
 	public static void addXmlToMap(FileInputStream input, Map<String, Set<String>> map) throws TransformerException, XPathExpressionException, ParserConfigurationException, SAXException, IOException {
