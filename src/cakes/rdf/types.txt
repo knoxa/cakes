@@ -1,9 +1,24 @@
+prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 prefix skos: <http://www.w3.org/2004/02/skos/core#>
+prefix ies: <http://ies.data.gov.uk/ies4#>
 
 select distinct ?entity ?label
 
 WHERE {
 
-       ?entity skos:broader ?type.
-       ?type skos:prefLabel ?label.
+       {
+	       ?entity skos:broader ?type.
+	       ?type skos:prefLabel ?label.
+       }
+       union
+       {
+	       ?entity ies:isPartOf ?event.
+	       ?event rdf:type ies:Event.
+	       	bind("EVENT" as ?label).
+       }
+       union
+       {
+	       ?entity rdf:type ies:Event.
+	       	bind("EVENT" as ?label).
+       }
 }
