@@ -73,8 +73,8 @@ public class EventFilterModel extends BaseFilter {
 	        	
 	        	for ( String id: matchingRdfIds ) {
 	        		
-	        		String name =  prefMap.get(id) == null ? dictionaryEntry : prefMap.get(id);
-	        		String type = typeMap.get(id);
+	        		String name = prefMap.get(id) == null ? dictionaryEntry : prefMap.get(id);
+	        		String type = typeMap.get(id) == null ? "UNKNOWN" : typeMap.get(id);
 	        		
 					AttributesImpl attr = new AttributesImpl();
 					attr.addAttribute(uri, "type", "type", "String", type);
