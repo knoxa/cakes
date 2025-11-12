@@ -1,7 +1,6 @@
 package cakes.text;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -23,11 +22,14 @@ public class Claims {
 	 *  There is no formal CE - just try and make the best of simple sentences...
 	 */
 	
-	private static final Pattern be = Pattern.compile("\\s+(is|are)\\s+?");
+	private static final Pattern be = Pattern.compile("\\s+(is|are|refers to)\\s+?");
 
 	public static Map<String, Set<String>> equivalentNames(Collection<String> claims) {
 		
 		// Returns a map claim |-> set of entities, where entities are quoted names in the claim
+		
+		// Maybe change this to look for "is the same as ..." rather than relying on quoted entities?
+		// ... but current method leaves it to use to decide if leading determiner is or isn't part of the name
 		
 		Map<String, Set<String>> results = new HashMap<String, Set<String>>();
 		
@@ -95,9 +97,8 @@ public class Claims {
 			
 			if (matcher.find() ) {
 				
-				Set<String> entities = new HashSet<String>();
-				entities.addAll(getEntitiesFromListPhrase(claim.substring(0, matcher.start())));					
-				Maps.addMapValues(results,claim, entities);
+				Set<String> entities = getEntitiesFromListPhrase(claim.substring(0, matcher.start()));
+				if ( entities.size() > 0 )  Maps.addMapValues(results, claim, entities);
 			}
 		}
 		
@@ -142,8 +143,13 @@ public class Claims {
 		//ignore leading determiner
 		String list = text.replaceAll("(?i)^(the|an|a|there|they)\\b", "").trim();
 		Set<String> results = new HashSet<String>();
-		String[] items = list.split(",\\s*(and\\s+)?|\\s+and\\s+");
-		results.addAll(Arrays.asList(items));
+		String[] items = list.split("(?i),\\s*(and\\s+)?|\\s+and\\s+");
+		
+		for (String item: items ) {
+			
+			// return anything that's not an empty string, with any leading or trailing double quotes removed
+			if ( item.length() > 0 )  results.add(item.replaceAll("^\\\"|\\\"$", ""));
+		}
 		
 		return results;
 	}
