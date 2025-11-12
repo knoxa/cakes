@@ -114,13 +114,7 @@ public class Labels {
         ResultSet rs = qe.execSelect();
         
         List<QuerySolution> results = ResultSetFormatter.toList(rs);
-        
-/*        for ( QuerySolution x: results) {
-        	
-        	System.out.println(x.getResource("entity").toString() + " --> " + x.getLiteral("label").getString());
-        }       
-        System.out.println("-----------------");
-*/        
+
         Map<String, String> entityLabelMap = results.stream().collect(
         		Collectors.toMap(
         		k -> k.getResource("entity").toString(),
