@@ -28,6 +28,7 @@ public class ModelMaker {
 		model.setNsPrefix("aif", "http://www.arg.dundee.ac.uk/aif#");
 		model.setNsPrefix("ies", "http://ies.data.gov.uk/ies4#");
 		model.setNsPrefix("foaf", "http://xmlns.com/foaf/0.1/");
+		model.setNsPrefix("wgs84_pos", "http://www.w3.org/2003/01/geo/wgs84_pos#");
 		
         return model;	
 	}
