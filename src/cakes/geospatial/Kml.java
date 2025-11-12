@@ -40,7 +40,7 @@ public class Kml {
 	private XPath xpath;
 	private NamespaceContext namespaceContext;
 	
-	private XPathExpression placemarksExpr, nameExpr, coordsExpr, geomExpr, altLabelExpr;
+	private XPathExpression placemarksExpr, nameExpr, coordsExpr, geomExpr, altLabelExpr, containerExpr;
 
 	private Map<String, Element> places, geometry;
 	private Map<String, String> prefNames;
@@ -232,6 +232,20 @@ public class Kml {
 		
 		return geometry;
 	}
+	
+	
+	public Map<String, String> getContainers() throws XPathExpressionException {
+		
+		Map<String, String> results = new HashMap<String, String>();
+		
+		for ( String place: places.keySet() ) {
+			
+			Element containerName = (Element) containerExpr.evaluate(places.get(place), XPathConstants.NODE);
+			results.put(place, containerName.getTextContent());
+		}
+		
+		return results;
+	}
 
 	
 	private void initializeXpath() {
@@ -274,6 +288,7 @@ public class Kml {
 			geomExpr = xpath.compile("./kml:Point|kml:LineString[1]|kml:Polygon[1]");
 			altLabelExpr = xpath.compile(".//skos:altLabel");
 			coordsExpr = xpath.compile(".//kml:coordinates");
+			containerExpr = xpath.compile("ancestor::kml:*[kml:name][1]/kml:name");
 		}
 		catch (XPathExpressionException e) {
 			e.printStackTrace();
