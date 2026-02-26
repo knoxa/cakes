@@ -60,18 +60,18 @@ public class Maps {
 	}
 
 	
-	public static Map<String, Set<String>> invertMap(Map<String, Set<String>> lookup) {
+	public static <K,V> Map<V, Set<K>> invertMap(Map<K, Set<V>> lookup) {
 		
-		Map<String, Set<String>> inverted = new HashMap<String, Set<String>>();
+		Map<V, Set<K>> inverted = new HashMap<V, Set<K>>();
 		
-		for (String key: lookup.keySet() ) {
+		for (K key: lookup.keySet() ) {
 			
-			Set<String> values = lookup.get(key);
+			Set<V> values = lookup.get(key);
 			
-			for ( String value: values ) {
+			for ( V value: values ) {
 				
-				Set<String> newValues = inverted.get(value);
-				if ( newValues == null )  newValues = new HashSet<String>();
+				Set<K> newValues = inverted.get(value);
+				if ( newValues == null )  newValues = new HashSet<K>();
 				newValues.add(key);
 				inverted.put(value, newValues);
 			}
@@ -94,22 +94,22 @@ public class Maps {
     	}
 	}
 
-	public static void addMapValue(Map<String, Set<String>> map, String key, String value) {
+	public static <K,V> void addMapValue(Map<K, Set<V>> map, K key, V value) {
 
-		// Add a string to the set of values for given key, creating the set if necessary
+		// Add a value to the set of values for given key, creating the set if necessary
 		
-		Set<String> values = map.get(key);
-    	if ( values == null ) values = new HashSet<String>();
+		Set<V> values = map.get(key);
+    	if ( values == null ) values = new HashSet<V>();
     	values.add(value);
     	map.put(key, values);
 	}
 
-	public static void addMapValues(Map<String, Set<String>> map, String key, Set<String> values) {
+	public static <K,V> void addMapValues(Map<K, Set<V>> map, K key, Set<V> values) {
 
 		// Add a set to the set of values for given key, creating the set if necessary
 		
-		Set<String> storedValues = map.get(key);
-    	if ( storedValues == null ) storedValues = new HashSet<String>();
+		Set<V> storedValues = map.get(key);
+    	if ( storedValues == null ) storedValues = new HashSet<V>();
     	storedValues.addAll(values);
     	map.put(key, storedValues);
 	}
