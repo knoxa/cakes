@@ -30,12 +30,13 @@ public class Maps {
 		
 	}
 
-	public static Set<String> checkMap(Map<String, Set<String>> map) {
+	public static <K,V> Set<K> checkMap(Map<K, Set<V>> map) {
 		
-		Set<String> ambiguous = new HashSet<String>();
-		for ( String key: map.keySet() ) {
+		Set<K> ambiguous = new HashSet<K>();
+		
+		for ( K key: map.keySet() ) {
 			
-			Set<String> values = map.get(key);
+			Set<V> values = map.get(key);
 			
 			if ( values.size() != 1 ) {
 				
@@ -60,13 +61,13 @@ public class Maps {
 	}
 
 	
-	public static <K,V> Map<V, Set<K>> invertMap(Map<K, Set<V>> lookup) {
+	public static <K,V> Map<V, Set<K>> invertMap(Map<K, Set<V>> map) {
 		
 		Map<V, Set<K>> inverted = new HashMap<V, Set<K>>();
 		
-		for (K key: lookup.keySet() ) {
+		for (K key: map.keySet() ) {
 			
-			Set<V> values = lookup.get(key);
+			Set<V> values = map.get(key);
 			
 			for ( V value: values ) {
 				
@@ -80,6 +81,21 @@ public class Maps {
 		return inverted;
 	}
 
+	
+	public static <K,V> Map<V, K> invertSimpleMap(Map<K, Set<V>> map) {
+		
+		Map<V, K> inverted = new HashMap<V, K>();
+		
+		for (K key: map.keySet() ) {
+			
+			Set<V> values = map.get(key);
+			for ( V value: values )  inverted.put(value, key);
+		}
+		
+		return inverted;
+	}
+
+	
 	public static void addFunctionOutput(Map<String, Set<String>> map, String input, String output) {
 		
 		// Consider the map as a function from input to output. Add the output to the set of values keyed by the input.
