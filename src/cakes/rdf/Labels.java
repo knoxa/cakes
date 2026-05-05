@@ -61,7 +61,7 @@ public class Labels {
         	
         	String key = result.getLiteral("label").getString();
         	Resource resource = result.getResource("entity");
-			String value = resource.isURIResource() ? resource.getURI() : resource.getId().getLabelString();				
+			String value = resource.isURIResource() ? resource.getURI() : "#" + resource.getId().getLabelString();				
         	
         	Set<String> values = map.get(key);
         	
