@@ -181,10 +181,11 @@ public class Maps {
 				attr.addAttribute("", "value", "value", "String", value);
 				ch.startElement("", "entry", "entry", attr);
 				ch.endElement("", "entry", "entry");
-			};
+			}
 		}
 		
 		ch.endElement("", "map", "map");
 		ch.endDocument();
 	}
+	
 }
