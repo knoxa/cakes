@@ -19,12 +19,6 @@
   <dependencyManagement>
   	<dependencies>
   		<dependency>
-  			<groupId>org.apache.opennlp</groupId>
-  			<artifactId>opennlp-tools</artifactId>
-  			<version>1.9.1</version>
-  			<type>bundle</type>
-  		</dependency>
-  		<dependency>
   			<groupId>edu.mit</groupId>
   			<artifactId>jwi</artifactId>
   			<version>2.2.3</version>
@@ -35,6 +29,26 @@
   	<dependency>
   		<groupId>edu.mit</groupId>
   		<artifactId>jwi</artifactId>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.apache.jena</groupId>
+  		<artifactId>jena-core</artifactId>
+  		<version>3.1.0</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.apache.jena</groupId>
+  		<artifactId>jena-arq</artifactId>
+  		<version>3.1.0</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.apache.opennlp</groupId>
+  		<artifactId>opennlp-tools</artifactId>
+  		<version>1.9.4</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.apache.commons</groupId>
+  		<artifactId>commons-math3</artifactId>
+  		<version>3.6.1</version>
   	</dependency>
   </dependencies>
 </project>
