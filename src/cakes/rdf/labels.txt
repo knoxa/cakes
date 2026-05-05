@@ -8,5 +8,5 @@ select distinct ?entity ?label
 
 WHERE {
 
-       ?entity skos:prefLabel|skos:altLabel|gn:name|gn:shortName|gn:alternateName|schema:name|schema:alternateName ?label.
+       ?entity rdfs:label|skos:prefLabel|skos:altLabel|gn:name|gn:shortName|gn:alternateName|schema:name|schema:alternateName ?label.
 }
