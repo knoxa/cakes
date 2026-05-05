@@ -36,7 +36,7 @@ public class ModelMaker {
 	
 	public static Model merge(Model... models) throws IOException {
 		
-        // The same blank node label in different models map to the same mode when the model are simply merged. This is wrong.
+        // The same blank node label in different models map to the same node when the model are simply merged. This is wrong.
         // We need to serialize, then deserialize, to get rid of labels and ensure blank nodes in different models are distinct.
 
 		Model result = ModelFactory.createDefaultModel();
@@ -123,7 +123,10 @@ public class ModelMaker {
 //		pipeline.addStep(new StreamSource(XhtmlRdfa.class.getResourceAsStream("rdfa-ntriples.xsl")));
 		
 		// NEED TO FIX THIS - create the file with a base directory, so imports work ... 
+		// C:\workspaces\development\LinkedData\xsl\rdfa-ntriples.xsl
+		
 		File xslfile = new File("/D:/GitHub/eleatics/xsl-utils", "rdfa-ntriples.xsl");
+		//File xslfile = new File("/C:/workspaces/development/LinkedData/xsl", "rdfa-ntriples.xsl");
 		pipeline.addStep(new StreamSource(xslfile));
 
 		Model model = ModelMaker.getModelFromXML(input, pipeline);
