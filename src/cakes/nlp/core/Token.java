@@ -16,7 +16,7 @@ public class Token extends Span {
 	}
 
 
-	public  static final String XML_NAMESPACE = "http://example.org/nlp/parse";
+	public  static final String XML_NAMESPACE = "http://uk.gov.dstl/baleen/parse";
 
 	private String surface;
 	private List<Lemma> lemmas;

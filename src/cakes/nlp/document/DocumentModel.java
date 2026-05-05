@@ -26,7 +26,7 @@ import cakes.nlp.core.Token;
 
 public class DocumentModel {
 
-	public  static final String XML_NAMESPACE = "http://example.org/nlp/parse";
+	public  static final String XML_NAMESPACE = "http://uk.gov.dstl/baleen/parse";
 	
 	public static Annotation getSentenceContainingOffset(Connection connection, int doc_id, int char_pos) {
 		
