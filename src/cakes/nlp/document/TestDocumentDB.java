@@ -11,9 +11,13 @@ import java.net.URISyntaxException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -44,6 +48,8 @@ import xslt.Pipeline;
 import xslt.PipelineBuilder;
 
 public class TestDocumentDB {
+
+	public static Pattern dates = Pattern.compile("(\\d{1,2}(st|nd|rd|th)?\\s+)?(jan|january|feb|february|mar|march|apr|april|may|jun|june|jul|july|aug|august|sep|september|oct|october|nov|november|dec|december)(,?\\s+(\\d{2,4}))?\\b", Pattern.CASE_INSENSITIVE);
 
 	public static void main(String[] args) throws URISyntaxException, SAXException, IllegalArgumentException, IOException, SQLException, TransformerException {
 
@@ -137,6 +143,18 @@ public class TestDocumentDB {
 		DocumentModel.insertAnnotations(connection, annotations);
 
 	}
+	
+
+	public static void dates(Connection connection, String name) throws IOException {
+		
+		int n = DocumentModel.getDocumentCount(connection);
+
+		for ( int i = 1; i <= n; i++ ) {
+			
+			List<Annotation> annotations = applyPattern(dates, connection, i, name);
+			DocumentModel.insertAnnotations(connection, annotations);
+		}
+	}
 
 	
 	public static void sql(Connection connection, String sqlFile) {
@@ -197,4 +215,99 @@ public class TestDocumentDB {
 		
 		sql(connection, "sentence-adjust.sql");
 	}
+	
+	
+	public static List<Annotation> applyPattern(Pattern pattern, Connection connection, int docid, String tag) {
+		
+		List<Annotation> annotations = new ArrayList<Annotation>();
+
+		String text = DocumentModel.getText(connection, docid);		
+		Matcher matcher = pattern.matcher(text);
+
+		while ( matcher.find() ) {
+			
+			if ( matcher.group(0).matches(".*?\\d.*") ) {
+				
+				Annotation a = new Annotation();
+				a.docid = docid;
+				a.actor = 321;
+				a.begin = matcher.start(0);
+				a.end = matcher.end(0);
+				//a.surface = DocumentModel.getText(connection, a.docid).substring(a.begin, a.end);
+				a.surface = matcher.group(0);
+				a.lemma = normalizeDate(a.surface); // !!!!!!!!!!!
+				a.type = tag;
+				a.confidence = (float) 0.5;
+				annotations.add(a);
+			}
+
+		}
+		
+		return annotations;
+	}
+
+	public static String normalizeDate(String inputDate) {
+
+		String outputDate = "";
+		if (inputDate == null)  return outputDate;
+		String txt = inputDate.trim();
+		if (txt.length() == 0) return outputDate;
+
+		txt = txt.replaceAll("(\\.|,)\\s*", "\\/");
+
+		SimpleDateFormat f1 = new SimpleDateFormat("d/M/y");
+		SimpleDateFormat f2 = new SimpleDateFormat("d MMM y");
+		SimpleDateFormat f3 = new SimpleDateFormat("MMM-y");
+		SimpleDateFormat f4 = new SimpleDateFormat("y");
+		SimpleDateFormat f5 = new SimpleDateFormat("M/y");
+		SimpleDateFormat f6 = new SimpleDateFormat("MMM y");
+
+		SimpleDateFormat o1 = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat o2 = new SimpleDateFormat("yyyy-MM");
+		SimpleDateFormat o3 = new SimpleDateFormat("yyyy");
+
+		try {
+
+			if (txt.matches("^\\d{4}\\-\\d{2}\\-\\d{2}$")) { // normal form anyway
+
+				outputDate = o1.format(o1.parse(txt));
+			}
+			else if (txt.matches("^\\w{3,4}\\-\\d+$")) {
+
+				outputDate = o2.format(f3.parse(txt));
+			}
+			else if (txt.matches("^\\w+\\s\\d+$")) {
+
+				outputDate = o2.format(f6.parse(txt));
+			}
+			else if (txt.matches("^\\d+\\/\\d+\\/\\d{4}$")) {
+
+				outputDate = o1.format(f1.parse(txt));
+			}
+			else if (txt.matches("^\\d+\\/\\d+\\/\\d{2}$")) {
+
+				outputDate = o1.format(f1.parse(txt));
+			}
+			else if (txt.matches("^\\d+\\s\\w+\\s\\d{4}$")) {
+
+				outputDate = o1.format(f2.parse(txt));
+			}
+			else if (txt.matches("^\\d+\\/\\d{4}$")) {
+
+				outputDate = o2.format(f5.parse(txt));
+			}
+			else if (txt.matches("^\\d{4}$")) {
+
+				outputDate = o3.format(f4.parse(txt));
+			}
+			else {
+				System.err.println("Can't parse: " + inputDate + "<" + txt + ">");
+			}
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		return outputDate;
+	}
+
 }
