@@ -37,7 +37,7 @@ public class Lemma {
 		
     	AttributesImpl attr = new AttributesImpl();
 
-		if ( partOfSpeech != null ) attr.addAttribute("", "pos",  "pos",  "CDATA", partOfSpeech);
+		if ( partOfSpeech != null ) attr.addAttribute("", "type",  "type",  "CDATA", partOfSpeech);
 		if ( pennTag != null ) attr.addAttribute("", "penn", "penn", "CDATA", pennTag);
    	
 		ch.startElement(Token.XML_NAMESPACE, "lemma", "lemma", attr);
