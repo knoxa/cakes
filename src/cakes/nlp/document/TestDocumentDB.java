@@ -139,7 +139,7 @@ public class TestDocumentDB {
 		
 		DictionaryUtils.applyDictionary(iterator, wrapper, (MatchReport) iterator);
 		
-		List<Annotation> annotations = iterator.getAnnotations();
+		List<Annotation> annotations = iterator.getAnnotations(); System.out.println("ANNOTATIONS " + annotations);
 		DocumentModel.insertAnnotations(connection, annotations);
 
 	}
@@ -216,6 +216,11 @@ public class TestDocumentDB {
 		sql(connection, "sentence-adjust.sql");
 	}
 	
+	
+	public static void datetime(Connection connection) {
+		
+		sql(connection, "datetime.sql");
+	}
 	
 	public static List<Annotation> applyPattern(Pattern pattern, Connection connection, int docid, String tag) {
 		
