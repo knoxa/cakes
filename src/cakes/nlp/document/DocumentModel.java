@@ -1344,34 +1344,5 @@ public class DocumentModel {
 
 		return hits;
 	}
-	
-	public static void updatetMD5(Connection connection) {
-		
-		String sql = "select M.DOC_ID, M.\"BEGIN\", M.\"END\", substr(D.CONTENT, M.\"BEGIN\"+1, M.\"END\"-M.\"BEGIN\") as TXT from MD5 M, DOC_TEXT D where M.HASH is null and M.DOC_ID = D.DOC_ID";
-		
-		Set<Integer> matches = new HashSet<Integer>();
-		Map<Integer, Integer> map = new HashMap<Integer, Integer>();
-		Hits hits   = new Hits();
-		hits.idset  = matches;
-		hits.counts = map;
-
-		try {
-			
-			PreparedStatement scratchStmt = connection.prepareStatement(sql);
-
-			ResultSet results = scratchStmt.executeQuery();
-			
-			while ( results.next() ) {
-				
-				Integer docid = new Integer(results.getInt("DOC_ID"));
-				matches.add(docid);
-			}
-			
-			scratchStmt.close();
-		}
-		catch (SQLException e) {
-				e.printStackTrace();
-			}
-	}
 
 }
