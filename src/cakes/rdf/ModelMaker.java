@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
+import java.net.URL;
 
 import javax.xml.transform.Source;
 import javax.xml.transform.TransformerException;
@@ -113,20 +114,19 @@ public class ModelMaker {
 	public static Model getModelFromXhtmlFile(File input) throws TransformerException, IOException {
 		
 		/*
-		 * Reads XHTML+RDFa from a file and returns a Model of the RDFa mark-up.
-		 * Constructs an pipeline that will run a RDFa extractor XSL stylesheet.
+		 * Read XHTML+RDFa from a file and return a Model of the RDFa mark-up.
 		 */
 
+		// Construct a pipeline that will run the eleatics RDFa extractor XSL stylesheet.
 		Pipeline pipeline = new Pipeline();
 		
-//		XhtmlRdfa.class.getResourceAsStream("rdfa-ntriples.xsl");
-//		pipeline.addStep(new StreamSource(XhtmlRdfa.class.getResourceAsStream("rdfa-ntriples.xsl")));
-		
-		// NEED TO FIX THIS - create the file with a base directory, so imports work ... 
-		// C:\workspaces\development\LinkedData\xsl\rdfa-ntriples.xsl
-		
-		File xslfile = new File("/D:/GitHub/eleatics/xsl-utils", "rdfa-ntriples.xsl");
-		//File xslfile = new File("/C:/workspaces/development/LinkedData/xsl", "rdfa-ntriples.xsl");
+		// This is the RDFA extraction stylesheet copied from the GitHub "eleatics" repository to this package  ... 
+		URL url = ModelMaker.class.getResource("rdfa-ntriples.xsl");
+		File xslfile = new File(url.getFile());		
+		// An alternative would be to set the location of an eleatics clone (specifically, "xsl-utils" folder),
+		// perhaps as a system property, then specify the folder and stylesheet (with a base folder so that the xsl-import works):		
+		//File xslfile = new File("/D:/GitHub/eleatics/xsl-utils", "rdfa-ntriples.xsl");
+
 		pipeline.addStep(new StreamSource(xslfile));
 
 		Model model = ModelMaker.getModelFromXML(input, pipeline);
