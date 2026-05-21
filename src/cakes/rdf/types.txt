@@ -1,6 +1,7 @@
 prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 prefix skos: <http://www.w3.org/2004/02/skos/core#>
 prefix ies: <http://ies.data.gov.uk/ies4#>
+prefix time: <http://www.w3.org/2006/time#>
 
 select distinct ?entity ?label
 
@@ -20,5 +21,10 @@ WHERE {
        {
 	       ?entity rdf:type ies:Event.
 	       	bind("EVENT" as ?label).
+       }
+       union
+       {
+	       ?entity rdf:type time:Interval.
+	       	bind("INTERVAL" as ?label).
        }
 }
