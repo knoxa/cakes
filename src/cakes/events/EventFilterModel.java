@@ -24,7 +24,7 @@ public class EventFilterModel extends BaseFilter {
 	
 	private String text;
 	private Map<String, Set<String>> labelMap;
-	private Map<String, String> typeMap;
+	private Map<String, Set<String>> typeMap;
 	private Map<String, String> prefMap;
     private DictionaryWrapper wrapper;
 
@@ -45,7 +45,7 @@ public class EventFilterModel extends BaseFilter {
     	
 		// make a dictionary from the labels
     	Set<String> terms = labelMap.keySet();
-    	terms.removeAll(typeMap.values());
+    	for ( String key: typeMap.keySet() ) terms.removeAll(typeMap.get(key));
         wrapper = DictionaryUtils.getWrappedDictionary(labelMap.keySet());
 	}
 
@@ -74,7 +74,7 @@ public class EventFilterModel extends BaseFilter {
 	        	for ( String id: matchingRdfIds ) {
 	        		
 	        		String name = prefMap.get(id) == null ? dictionaryEntry : prefMap.get(id);
-	        		String type = typeMap.get(id) == null ? "UNKNOWN" : typeMap.get(id);
+	        		String type = typeMap.get(id) == null ? "UNKNOWN" : typeMap.get(id).iterator().next();
 	        		
 					AttributesImpl attr = new AttributesImpl();
 					attr.addAttribute(uri, "type", "type", "String", type);

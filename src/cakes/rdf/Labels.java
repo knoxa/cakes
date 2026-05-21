@@ -23,6 +23,8 @@ import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
 
+import cakes.category.Maps;
+
 
 public class Labels {
 	
@@ -77,7 +79,7 @@ public class Labels {
         return map;
 	}
 
-	public static Map<String, String> queryTypeMap(Model m) throws IOException {
+	public static Map<String, Set<String>> queryTypeMap(Model m) throws IOException {
 		
 		// Returns a Map of IRI's to type. A type is the preferred label of any broader concept.
 		
@@ -89,14 +91,14 @@ public class Labels {
         
         List<QuerySolution> results = ResultSetFormatter.toList(rs);
         
-        Map<String, String> map = new HashMap<String, String>();
+        Map<String, Set<String>> map = new HashMap<String, Set<String>>();
         
         for (QuerySolution result: results) {
         	
         	String value = result.getLiteral("label").getString();
         	Resource resource = result.getResource("entity");
-			String key = resource.isURIResource() ? resource.getURI() : resource.getId().getLabelString();				
-        	map.put(key, value);
+			String key = resource.isURIResource() ? resource.getURI() : resource.getId().getLabelString();
+			Maps.addMapValue(map, key, value);
         }
         
         return map;
