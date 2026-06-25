@@ -11,7 +11,7 @@ public class DocumentNamespaceContext implements NamespaceContext {
 	public String getNamespaceURI(String prefix) {
 
 		if (prefix == null) throw new NullPointerException("Null prefix");
-        else if ("xhtml".equals(prefix)) return "http://www.w3.org/1999/xhtml";
+        else if ("xhtml".equals(prefix) || "html".equals(prefix)) return "http://www.w3.org/1999/xhtml";
         else if ("doc".equals(prefix))   return DocumentModel.XML_NAMESPACE;
         else if ("text".equals(prefix))  return DocumentModel.XML_NAMESPACE;
         else if ("xml".equals(prefix))   return XMLConstants.XML_NS_URI;
