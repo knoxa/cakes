@@ -1,7 +1,6 @@
 package cakes.events;
 
 import java.io.IOException;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -35,20 +34,7 @@ public class EventFilterMap extends BaseFilter {
 		
 		this.entityMap = entityMap;
 		this.type = type;
-		
-		// make a dictionary from all the labels
-    	Set<String> terms = new HashSet<String>();
-    	terms.addAll(entityMap.keySet());
-    	
-    	for ( String key: entityMap.keySet() ) {
-    		
-    		Set<String> prefLabels = entityMap.get(key);
-    		terms.addAll(prefLabels);
-    		// there should only be one prefLabel though ...
-    		if ( prefLabels.size() > 1 ) System.err.println("Warning: The term \"" + key + "\" is ambigous: " + prefLabels );
-    	}
-
-    	wrapper = DictionaryUtils.getWrappedDictionary(terms);
+    	wrapper = DictionaryUtils.getWrappedDictionary(entityMap);
 	}
 
 	public void setWrapper(DictionaryWrapper wrapper) {		
