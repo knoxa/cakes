@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 
 import cakes.nlp.core.Span;
@@ -38,6 +39,14 @@ public class DictionaryUtils {
         }
         
 	    return wrapper;
+	}
+	
+	public static DictionaryWrapper getWrappedDictionary(Map<String, Set<String>> termsMap) {
+		
+    	Set<String> terms = new HashSet<String>();
+    	terms.addAll(termsMap.keySet());
+    	for ( String key: termsMap.keySet() )  terms.addAll(termsMap.get(key));
+    	return getWrappedDictionary(terms, new DefaultTokenizer());
 	}
 
 	
