@@ -7,7 +7,9 @@
 <kml>
 <Document>
 	<name>TESTING</name>
-	<xsl:apply-templates select="//place"/>
+	<xsl:apply-templates select="//place">
+		<xsl:sort select="name" order="ascending"/>
+	</xsl:apply-templates>
 </Document>
 </kml>
 </xsl:template>
