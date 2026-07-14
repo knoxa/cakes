@@ -30,7 +30,7 @@ public class Maps {
 		
 	}
 
-	public static <K,V> Set<K> checkMap(Map<K, Set<V>> map) {
+	public static <K,V> Set<K> checkForAmbiguity(Map<K, Set<V>> map) {
 		
 		Set<K> ambiguous = new HashSet<K>();
 		
