@@ -1,13 +1,18 @@
 package cakes.nlp.dictionary;
 
+import java.text.Normalizer.Form;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import cakes.category.Maps;
 import cakes.nlp.core.Span;
 import opennlp.tools.dictionary.Dictionary;
 import opennlp.tools.namefind.DictionaryNameFinder;
@@ -106,6 +111,49 @@ public class DictionaryUtils {
         }
         
         return results;
+	}
+
+
+	public static void applyTermsToSelf(List<String> terms, Map<String, Set<String>> map) {
+		
+		// sort the terms in order of increasing string length
+		
+		Collections.sort(terms, new Comparator<String>() {
+	
+			public int compare(String a, String b) {
+				return ( a.length() - b.length() );
+		}});
+		
+		// take each term and look for it as a substring of longer terms (after it in the list)
+		
+		for (int i = 0; i < terms.size(); i++ ) {
+			
+			String term = terms.get(i);
+	    	String normalTerm = java.text.Normalizer.normalize(term, Form.NFD).replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
+
+			// we want to find the term between word boundaries, ignore case, and allow for a closing bracket as part of the match
+			
+			String regex = "(?i).*?\\b" + normalTerm.replaceAll("\\.", "\\\\.") + "(\\)|\\s|\\b).*";
+			
+			for ( int j = i + 1; j < terms.size(); j++ ) {
+				
+				String text = terms.get(j);
+		    	String normalText = java.text.Normalizer.normalize(text, Form.NFD).replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
+				
+				if ( normalText.matches(regex) ) {
+					
+					// a term points to the set of smaller terms it contains
+					Maps.addMapValue(map, text, term);
+				}
+			}
+			
+			// a term that doesn't contain a smaller term maps to itself
+			
+			if ( !map.containsKey(term) ) {
+				
+				Maps.addMapValue(map, term, term);
+			}
+		}
 	}
 	
 }
