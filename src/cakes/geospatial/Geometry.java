@@ -53,7 +53,7 @@ public class Geometry {
 				
 				if ( v1.getDistance(v2) > EPSILON ) {
 					
-					System.err.println("Two different points for: " + name + " - " + Kml.distance(v1, v2));
+					System.err.println("Two different points for: " + name + " (" + Kml.distance(v1, v2) + "km apart");
 				}		
 			}
 		}
