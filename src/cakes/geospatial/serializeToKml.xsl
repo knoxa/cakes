@@ -17,7 +17,9 @@
 <xsl:template match="place">
   <Placemark>
     <name><xsl:value-of select="name"/></name>
+    <!-- 
     <description>Coverage...</description>
+     -->
     <xsl:choose>
     	<xsl:when test="count(coordinates) &gt; 1">
     		<LineString>
