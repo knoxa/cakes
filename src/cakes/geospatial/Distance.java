@@ -8,7 +8,7 @@ import cakes.geometry.Tuple;
 
 public class Distance {
 	
-	private static final double EARTH_RADIUS_IN_KM = 6371.0;
+	private static final double EARTH_RADIUS_IN_KM = 6371.0088;
 
 	public static double distance(RealVector a, RealVector b) {
 		
