@@ -14,6 +14,7 @@ public class DocumentNamespaceContext implements NamespaceContext {
         else if ("xhtml".equals(prefix) || "html".equals(prefix)) return "http://www.w3.org/1999/xhtml";
         else if ("doc".equals(prefix))   return DocumentModel.XML_NAMESPACE;
         else if ("text".equals(prefix))  return DocumentModel.XML_NAMESPACE;
+        else if ("svg".equals(prefix))   return "http://www.w3.org/2000/svg";
         else if ("xml".equals(prefix))   return XMLConstants.XML_NS_URI;
         return XMLConstants.NULL_NS_URI;
 	}
