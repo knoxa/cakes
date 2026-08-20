@@ -57,17 +57,6 @@ public class Inclusion {
 		return windingNumber != 0;
 	}
 
-	public static int getWindingNumber(RealVector point, List<RealVector> polygon) {
-		
-		int windingNumber = 0;
-		
-		for ( int i = 0; i < polygon.size(); i++ ) {
-			
-			//point.
-		}
-		
-		return windingNumber;
-	}
 
 	protected static double isLeft(RealVector vertexA, RealVector vertexB, RealVector point) {
 		
