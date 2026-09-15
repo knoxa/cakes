@@ -29,7 +29,8 @@ public class SimpleTextDocument implements TextDocument {
 		
 		this.text = text;
 		this.uri = uri;
-		this.dictionaryMap = dictionaryMap;
+		this.dictionaryMap = new HashMap<>();
+		this.dictionaryMap.putAll(dictionaryMap);
 	}
 	
 	@Override
