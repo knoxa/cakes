@@ -40,7 +40,7 @@ public class Kml {
 	private XPath xpath;
 	private NamespaceContext namespaceContext;
 	
-	private XPathExpression placemarksExpr, nameExpr, coordsExpr, geomExpr, altLabelExpr, containerExpr;
+	private XPathExpression placemarksExpr, nameExpr, coordsExpr, geomExpr, altLabelExpr, containerExpr, overlayExpr;
 
 	private Map<String, Element> places, geometry;
 	private Map<String, String> prefNames;
@@ -284,10 +284,49 @@ public class Kml {
 			altLabelExpr = xpath.compile(".//skos:altLabel");
 			coordsExpr = xpath.compile(".//kml:coordinates");
 			containerExpr = xpath.compile("ancestor::kml:*[kml:name][1]/kml:name");
+			overlayExpr = xpath.compile(".//kml:GroundOverlay[kml:LatLonBox]");
 		}
 		catch (XPathExpressionException e) {
 			e.printStackTrace();
 		}
 	}
 
+	public Map<String, LatLonBox> getOverlayBoxes() {
+		
+		Map<String, LatLonBox> boxes = new HashMap<>();
+
+		try {
+			NodeList list = (NodeList) overlayExpr.evaluate(doc.getDocumentElement(), XPathConstants.NODESET);
+			
+			for ( int i = 0; i < list.getLength(); i++ ) {
+				
+				Element groundOverlay = (Element) list.item(i);
+				
+				NodeList nameList = groundOverlay.getElementsByTagName("name");
+				String name = nameList.getLength() > 0 ? ((Element) nameList.item(0)).getTextContent() : "unknown";
+				
+				Element boxElem  = (Element) groundOverlay.getElementsByTagName("LatLonBox").item(0);
+				
+				LatLonBox box = new LatLonBox();
+				box.setName(name);
+				box.setNorth(Double.parseDouble( ((Element) boxElem.getElementsByTagName("north").item(0)).getTextContent() ));
+				box.setSouth(Double.parseDouble( ((Element) boxElem.getElementsByTagName("south").item(0)).getTextContent() ));
+				box.setWest(Double.parseDouble( ((Element) boxElem.getElementsByTagName("west").item(0)).getTextContent() ));
+				box.setEast(Double.parseDouble( ((Element) boxElem.getElementsByTagName("east").item(0)).getTextContent() ));
+				
+				NodeList rotationList = groundOverlay.getElementsByTagName("rotation");
+				double rotation = rotationList.getLength() > 0 ? Double.parseDouble( ((Element) rotationList.item(0)).getTextContent() ) : 0.0;
+				box.setRotation(rotation);
+				
+				boxes.put(name, box);
+			}
+		}
+		catch (XPathExpressionException e) {
+
+			e.printStackTrace();
+		}
+
+		return boxes;
+		
+	}
 }
